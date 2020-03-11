@@ -85,12 +85,18 @@ describe("todo slice", () => {
       it(actions.loadError.type, () => {
         // Arrange
 
+        const errorMessage = "Error message";
+
         // Act
-        const result = reducer(initialState, actions.loadError());
+        const result = reducer(
+          initialState,
+          actions.loadError({ message: errorMessage })
+        );
 
         // Assert
         expect(result.loading.request.type).toEqual(RT.read);
         expect(result.loading.request.status).toEqual(RS.error);
+        expect(result.loading.request.error).toEqual(errorMessage);
       });
 
       it(actions.loadCancel.type, () => {

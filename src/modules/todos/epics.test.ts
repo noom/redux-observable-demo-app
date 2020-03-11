@@ -20,7 +20,10 @@ import { slice } from "./slice";
 import { loadTodosEpic } from "./epics";
 import { TodoItem } from "./models";
 
-const mockTodoItems: TodoItem[] = [{ id: 1, text: "T1" }];
+const mockTodoItems: TodoItem[] = [
+  { id: 1, text: "Todo 1" },
+  { id: 2, text: "Todo 2" },
+];
 
 jest.mock("rxjs/ajax", () => ({
   ajax: jest.fn(),
@@ -67,7 +70,7 @@ describe("todo epics", () => {
       "can succeed after three(3) fails",
       marbles(m => {
         mockedAjax.mockImplementation(() =>
-          repeatAjaxErrorsThenAjaxResult(3, [{ id: 1, text: "T1" }])
+          repeatAjaxErrorsThenAjaxResult(3, mockTodoItems)
         );
 
         const values = {
@@ -98,7 +101,7 @@ describe("todo epics", () => {
       "produces loadDone action on success",
       marbles(m => {
         mockedAjax.mockImplementation(() =>
-          repeatAjaxErrorsThenAjaxResult(0, [{ id: 1, text: "T1" }])
+          repeatAjaxErrorsThenAjaxResult(0, mockTodoItems)
         );
 
         const states = {

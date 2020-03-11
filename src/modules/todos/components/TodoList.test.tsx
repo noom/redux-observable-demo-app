@@ -45,8 +45,8 @@ describe("TodoList", () => {
     />
   );
 
-  it("renders 3 todos", () => {
-    expect(shallowTodoList.find(TodoItemComponent)).toHaveLength(3);
+  it("renders correct number of list items", () => {
+    expect(shallowTodoList.find(TodoItemComponent)).toHaveLength(todos.length);
   });
 
   it("matches snapshot", () => {
