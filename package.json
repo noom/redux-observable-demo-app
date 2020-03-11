@@ -81,6 +81,7 @@
     "plop": "^2.5.4",
     "prettier": "^1.19.1",
     "react-app-rewired": "^2.1.5",
+    "rxjs-marbles": "^5.0.4",
     "ts-jest": "^25.2.1"
   },
   "husky": {

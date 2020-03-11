@@ -23,7 +23,8 @@ export const feedback = <State, Query>(
 
 export const feedbackFlag = <State, Query extends boolean>(
   query: (s: State) => Query,
-  effect: () => Observable<PayloadAction>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  effect: () => Observable<PayloadAction<any>>
 ) => (state$: Observable<State>) =>
   state$.pipe(
     map<State, Query>(query),

@@ -4,13 +4,26 @@ import { combineEpics, createEpicMiddleware } from "redux-observable";
 import { createLogger } from "redux-logger";
 
 // import modules
-import { slice as todo, epics as todoEpics } from "@modules/todos";
-import { slice as user, epics as userEpics } from "@modules/users";
+import {
+  slice as todo,
+  epics as todoEpics,
+  api as todoApi,
+} from "@modules/todos";
+import {
+  slice as user,
+  epics as userEpics,
+  api as usersApi,
+} from "@modules/users";
 
 const reducer = combineReducers({
   todos: todo.reducer,
   users: user.reducer,
 });
+
+export const Api = {
+  todos: todoApi,
+  users: usersApi,
+};
 
 type CombinedState = ReturnType<typeof reducer>;
 
