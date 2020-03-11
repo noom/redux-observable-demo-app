@@ -1,5 +1,5 @@
 import { Observable, Observer } from "rxjs";
-import { AjaxError, AjaxResponse } from "rxjs/internal-compatibility";
+import { AjaxError, AjaxResponse } from "rxjs/ajax";
 
 import {
   RequestStatus as RS,

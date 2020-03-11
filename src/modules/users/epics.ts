@@ -1,6 +1,6 @@
 import { catchError, map, retry } from "rxjs/operators";
 import { of } from "rxjs";
-import { ajax } from "rxjs/internal-compatibility";
+import { ajax } from "rxjs/ajax";
 
 import { feedbackFlag } from "@modules/common/operators";
 import { StateEpic as SE, combineStateEpics } from "@modules/common/epics";
@@ -23,13 +23,11 @@ const loadEpic: SE<AppState> = state$ =>
     feedbackFlag(
       state => matchRequest(RT.read, RS.inProgress)(state.loading.request),
       () =>
-        Api.users
-          .listUsers(ajax)()
-          .pipe(
-            retry(3),
-            map(request => actions.loadDone(request.response)),
-            catchError(() => of(actions.loadError()))
-          )
+        Api.users.listUsers().pipe(
+          retry(3),
+          map(request => actions.loadDone(request.response)),
+          catchError(() => of(actions.loadError()))
+        )
     )
   );
 export default combineStateEpics(loadEpic);

@@ -1,20 +1,22 @@
 import { Observable } from "rxjs";
-import { AjaxCreationMethod, AjaxResponse } from "rxjs/internal-compatibility";
+import { ajax, AjaxResponse } from "rxjs/ajax";
 
 import { User } from "./models";
 
 const { REACT_APP_SERVER_URL: SERVER_URL } = process.env;
 
-const getUser = (ajax: AjaxCreationMethod) => (
-  id: User["id"]
-): Observable<AjaxResponse> => {
-  return ajax.get(`${SERVER_URL}/users/${id}`);
+const getUser = (id: User["id"]): Observable<AjaxResponse> => {
+  return ajax({
+    url: `${SERVER_URL}/users/${id}`,
+    method: "GET",
+  });
 };
 
-const listUsers = (ajax: AjaxCreationMethod) => (): Observable<
-  AjaxResponse
-> => {
-  return ajax.get(`${SERVER_URL}/users`);
+const listUsers = (): Observable<AjaxResponse> => {
+  return ajax({
+    url: `${SERVER_URL}/users`,
+    method: "GET",
+  });
 };
 
 export default {
