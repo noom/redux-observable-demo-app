@@ -1,5 +1,4 @@
 import { Observable, Observer } from "rxjs";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import { AjaxError, AjaxResponse } from "rxjs/internal-compatibility";
 
 import {
