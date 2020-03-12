@@ -37,14 +37,14 @@ describe("todo epics", () => {
       marbles(m => {
         mockedAjax.mockImplementation(() =>
           mockAjaxStream([
-            ajaxError(404, "Not Found"),
-            ajaxError(404, "Not Found"),
-            ajaxError(404, "Not Found"),
-            ajaxError(404, "Not Found"),
+            ajaxError(503, "Service Unavailable"),
+            ajaxError(503, "Service Unavailable"),
+            ajaxError(503, "Service Unavailable"),
+            ajaxError(503, "Service Unavailable"),
           ])
         );
 
-        const values = {
+        const states = {
           z: zeroState,
           // using immer to create next state
           s: produce(zeroState, draft => {
@@ -54,16 +54,14 @@ describe("todo epics", () => {
               RS.inProgress
             );
           }),
-          // resulting action
-          r: slice.actions.loadError({
-            status: 404,
-            responseType: "json",
-            response: { message: `Not Found` },
-          }),
         };
 
-        const state$ = m.cold("  z-s------|", values);
-        const expected$ = m.cold("  --r------|", values);
+        const actions = {
+          r: slice.actions.loadError(ajaxError(503, "Service Unavailable")),
+        };
+
+        const state$ = m.cold("  z-s------|", states);
+        const expected$ = m.cold("  --r------|", actions);
 
         const actual$ = loadTodosEpic(
           (state$ as unknown) as StateObservable<AppState>
@@ -78,14 +76,14 @@ describe("todo epics", () => {
       marbles(m => {
         mockedAjax.mockImplementation(() =>
           mockAjaxStream([
-            ajaxError(404, "Not Found"),
-            ajaxError(404, "Not Found"),
-            ajaxError(404, "Not Found"),
+            ajaxError(503, "Service Unavailable"),
+            ajaxError(503, "Service Unavailable"),
+            ajaxError(503, "Service Unavailable"),
             ajaxSuccess(mockTodoItems),
           ])
         );
 
-        const values = {
+        const states = {
           z: zeroState,
           // using immer to create next state
           s: produce(zeroState, draft => {
@@ -95,12 +93,14 @@ describe("todo epics", () => {
               RS.inProgress
             );
           }),
-          // resulting action
+        };
+
+        const actions = {
           r: slice.actions.loadDone(mockTodoItems),
         };
 
-        const state$ = m.cold("  z-s------|", values);
-        const expected$ = m.cold("  --r------|", values);
+        const state$ = m.cold("  z-s------|", states);
+        const expected$ = m.cold("  --r------|", actions);
         const actual$ = loadTodosEpic(
           (state$ as unknown) as StateObservable<AppState>
         );
@@ -126,6 +126,7 @@ describe("todo epics", () => {
             );
           }),
         };
+
         const actions = {
           r: slice.actions.loadDone(mockTodoItems),
         };
