@@ -9,6 +9,21 @@ import {
 import { UserStateItem, UsersState } from "@modules/users";
 import { TodoStateItem, TodoState } from "@modules/todos";
 
+const ajaxError = (status: number, message: string) =>
+  ({
+    status,
+    responseType: "json",
+    response: { message },
+  } as AjaxError);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ajaxSuccess = (response: any) =>
+  ({
+    status: 200,
+    responseType: "json",
+    response,
+  } as AjaxResponse);
+
 export const repeatAjaxErrorsThenAjaxResult = (
   numberOfErrors: number,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,17 +35,9 @@ export const repeatAjaxErrorsThenAjaxResult = (
     (observer: Observer<any>) => {
       callCount += 1;
       if (callCount <= numberOfErrors) {
-        observer.error({
-          status: 404,
-          responseType: "json",
-          response: { message: `Not found ${callCount - 1}` },
-        } as AjaxError);
+        observer.error(ajaxError(404, "Not Found"));
       } else {
-        observer.next({
-          status: 200,
-          responseType: "json",
-          response,
-        } as AjaxResponse);
+        observer.next(ajaxSuccess(response));
         observer.complete();
       }
     }

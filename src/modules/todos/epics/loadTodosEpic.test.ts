@@ -1,7 +1,5 @@
 import { StateObservable } from "redux-observable";
 import produce from "immer";
-import { of } from "rxjs";
-import { delay } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 import { marbles } from "rxjs-marbles/jest";
 
@@ -16,9 +14,9 @@ import {
   repeatAjaxErrorsThenAjaxResult,
 } from "@modules/common/epics-test-helpers";
 
-import { slice } from "./slice";
-import { loadTodosEpic } from "./epics";
-import { TodoItem } from "./models";
+import { slice } from "../slice";
+import { loadTodosEpic } from "./loadTodosEpic";
+import { TodoItem } from "../models";
 
 const mockTodoItems: TodoItem[] = [
   { id: 1, text: "Todo 1" },
@@ -51,7 +49,7 @@ describe("todo epics", () => {
           r: slice.actions.loadError({
             status: 404,
             responseType: "json",
-            response: { message: `Not found 3` },
+            response: { message: `Not Found` },
           }),
         };
 
