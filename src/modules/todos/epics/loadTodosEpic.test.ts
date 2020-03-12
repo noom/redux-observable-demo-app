@@ -11,7 +11,9 @@ import {
 
 import {
   zeroState,
-  repeatAjaxErrorsThenAjaxResult,
+  mockAjaxStream,
+  ajaxError,
+  ajaxSuccess,
 } from "@modules/common/epics-test-helpers";
 
 import { slice } from "../slice";
@@ -33,7 +35,14 @@ describe("todo epics", () => {
     it(
       "returns error if API fails four(4) times",
       marbles(m => {
-        mockedAjax.mockImplementation(() => repeatAjaxErrorsThenAjaxResult(4));
+        mockedAjax.mockImplementation(() =>
+          mockAjaxStream([
+            ajaxError(404, "Not Found"),
+            ajaxError(404, "Not Found"),
+            ajaxError(404, "Not Found"),
+            ajaxError(404, "Not Found"),
+          ])
+        );
 
         const values = {
           z: zeroState,
@@ -68,7 +77,12 @@ describe("todo epics", () => {
       "can succeed after three(3) fails",
       marbles(m => {
         mockedAjax.mockImplementation(() =>
-          repeatAjaxErrorsThenAjaxResult(3, mockTodoItems)
+          mockAjaxStream([
+            ajaxError(404, "Not Found"),
+            ajaxError(404, "Not Found"),
+            ajaxError(404, "Not Found"),
+            ajaxSuccess(mockTodoItems),
+          ])
         );
 
         const values = {
@@ -99,7 +113,7 @@ describe("todo epics", () => {
       "produces loadDone action on success",
       marbles(m => {
         mockedAjax.mockImplementation(() =>
-          repeatAjaxErrorsThenAjaxResult(0, mockTodoItems)
+          mockAjaxStream([ajaxSuccess(mockTodoItems)])
         );
 
         const states = {
