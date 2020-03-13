@@ -1,6 +1,6 @@
 import { catchError, map, retry } from "rxjs/operators";
 import { of } from "rxjs";
-import { ajax, ajaxGet } from "rxjs/internal-compatibility";
+import { ajax } from "rxjs/ajax";
 
 import { TodoStateItem } from "@modules/todos/models";
 import { feedbackFlag, feedbackArray } from "@modules/common/operators";

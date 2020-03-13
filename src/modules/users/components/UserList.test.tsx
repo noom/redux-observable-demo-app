@@ -59,8 +59,8 @@ describe("UserList", () => {
   // Shallow for unit tests
   const todoList = shallow(<UserList items={items} />);
 
-  it("renders 5 users", () => {
-    expect(todoList.find(UserItemComponent)).toHaveLength(5);
+  it("renders correct number of list items", () => {
+    expect(todoList.find(UserItemComponent)).toHaveLength(items.length);
   });
 
   it("matches snapshot", () => {

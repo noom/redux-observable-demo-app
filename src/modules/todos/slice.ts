@@ -60,12 +60,16 @@ const slice = createSlice({
       );
     },
 
-    loadError(state: TodoState) {
-      state.loading.request = updateRequest(
-        state.loading.request,
-        RS.error,
-        RT.read
-      );
+    loadError: {
+      prepare: e => ({ payload: { error: e } }),
+      reducer: (state: TodoState, action: PayloadAction<{ error: Error }>) => {
+        state.loading.request = updateRequest(
+          state.loading.request,
+          RS.error,
+          RT.read,
+          action.payload.error.message
+        );
+      },
     },
 
     add(state: TodoState, action: PayloadAction<TodoData>) {

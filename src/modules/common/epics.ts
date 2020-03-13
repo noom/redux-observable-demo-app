@@ -7,7 +7,7 @@ export type StateEpic<State, Output extends Action<unknown> = any> = (
   state$: StateObservable<State>
 ) => Observable<Output>;
 
-export const stateEpicToEpic = <State, Output extends Action<unknown>>(
+const stateEpicToEpic = <State, Output extends Action<unknown>>(
   stateEpic: StateEpic<State, Output>
 ): Epic<Action<unknown>, Output, State> => (_, $state) => stateEpic($state);
 

@@ -1,19 +1,25 @@
 import { Observable } from "rxjs";
-import { ajax, ajaxGet, AjaxResponse } from "rxjs/internal-compatibility";
+import { ajax, AjaxResponse } from "rxjs/ajax";
 
 import { TodoItem } from "./models";
 
 const { REACT_APP_SERVER_URL: SERVER_URL } = process.env;
 
-export function getTodo(id: TodoItem["id"]): Observable<AjaxResponse> {
-  return ajaxGet(`${SERVER_URL}/todos/${id}`);
-}
+const getTodo = (id: TodoItem["id"]): Observable<AjaxResponse> => {
+  return ajax({
+    url: `${SERVER_URL}/todos/${id}`,
+    method: "GET",
+  });
+};
 
-export function listTodos(): Observable<AjaxResponse> {
-  return ajaxGet(`${SERVER_URL}/todos`);
-}
+const listTodos = (): Observable<AjaxResponse> => {
+  return ajax({
+    url: `${SERVER_URL}/todos`,
+    method: "GET",
+  });
+};
 
-export function createTodo(data: TodoItem): Observable<AjaxResponse> {
+const createTodo = (data: TodoItem): Observable<AjaxResponse> => {
   return ajax({
     url: `${SERVER_URL}/todos`,
     method: "POST",
@@ -22,12 +28,12 @@ export function createTodo(data: TodoItem): Observable<AjaxResponse> {
       "Content-Type": "application/json",
     },
   });
-}
+};
 
-export function updateTodo(
+const updateTodo = (
   id: TodoItem["id"],
   data: TodoItem
-): Observable<AjaxResponse> {
+): Observable<AjaxResponse> => {
   return ajax({
     url: `${SERVER_URL}/todos/${id}`,
     method: "PUT",
@@ -36,11 +42,19 @@ export function updateTodo(
       "Content-Type": "application/json",
     },
   });
-}
+};
 
-export function deleteTodo(id: TodoItem["id"]): Observable<AjaxResponse> {
+const deleteTodo = (id: TodoItem["id"]): Observable<AjaxResponse> => {
   return ajax({
     url: `${SERVER_URL}/todos/${id}`,
     method: "DELETE",
   });
-}
+};
+
+export default {
+  listTodos,
+  createTodo,
+  deleteTodo,
+  getTodo,
+  updateTodo,
+};
