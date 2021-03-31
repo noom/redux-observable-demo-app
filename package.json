@@ -18,7 +18,7 @@
     "redux-observable": "^1.2.0",
     "rxjs": "^6.5.4",
     "styled-components": "^5.0.1",
-    "typescript": "^3.8.2"
+    "typescript": "^3.9.9"
   },
   "scripts": {
     "start": "react-app-rewired start",
